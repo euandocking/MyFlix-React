@@ -1,23 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:5000/videos')
+      .then(response => setVideos(response.data))
+      .catch(error => console.error('Error fetching videos:', error));
+  }, []);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>Netflix Clone</h1>
+      <div>
+        {videos.map(video => (
+          <div key={video._id}>
+            <h2>{video.name}</h2>
+            <p>{video.description}</p>
+            <video width="320" height="240" controls>
+              <source src={video.url} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
