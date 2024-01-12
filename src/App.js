@@ -5,7 +5,7 @@ function App() {
   const [videos, setVideos] = useState([]);
 
   useEffect(() => {
-    axios.get('${process.env.REACT_APP_API_URL}/videos')
+    axios.get(`${process.env.REACT_APP_API_URL}/videos`)
       .then(response => setVideos(response.data))
       .catch(error => console.error('Error fetching videos:', error));
   }, []);
